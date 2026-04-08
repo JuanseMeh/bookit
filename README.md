@@ -62,7 +62,7 @@ localhost:3000 (Frontend: Next.js) ───➤ localhost:3001 (Backend: Rust/Ax
 - Healthchecks ensure startup order
 - CORS permissive for frontend
 
-## 🐳 Docker Images (Published to Docker Hub)
+## Docker Images (Published to Docker Hub)
 
 | Service | Image | Port |
 |---------|--------|------|
