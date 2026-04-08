@@ -1,0 +1,111 @@
+@import "tailwindcss";
+
+:root {
+  --terminal-bg: #000000;
+  --terminal-fg: #00ff00;
+  --terminal-fg-dim: #00aa00;
+  --terminal-accent: #00ffff;
+  --error: #ff0000;
+  --border: #00aa00;
+}
+
+/* stylelint-disable at-rule-no-unknown */
+@theme inline {
+  --color-background: var(--terminal-bg);
+  --color-foreground: var(--terminal-fg);
+  --font-mono: var(--font-geist-mono);
+}
+/* stylelint-enable at-rule-no-unknown */
+
+/* Force dark terminal theme */
+@media (prefers-color-scheme: light) {
+  :root {
+    --terminal-bg: #000000;
+    --terminal-fg: #00ff00;
+  }
+}
+
+html, body {
+  background: var(--terminal-bg) !important;
+  color: var(--terminal-fg) !important;
+  font-family: var(--font-geist-mono) !important;
+  font-size: 14px;
+  line-height: 1.4;
+  padding: 1rem;
+  margin: 0;
+  height: 100vh;
+  overflow: auto;
+}
+
+.terminal-prompt {
+  color: var(--terminal-accent);
+}
+
+.terminal-input {
+  background: none;
+  border: none;
+  color: var(--terminal-fg);
+  font-family: inherit;
+  font-size: inherit;
+  width: 100%;
+  outline: none;
+}
+
+select {
+  background-color: #001100 !important;
+  color: #00ff00 !important;
+  border: 1px solid #00aa00 !important;
+  font-family: inherit !important;
+}
+
+select option {
+  background-color: #001100 !important;
+  color: #00ff00 !important;
+  font-family: inherit !important;
+}
+
+.terminal-table {
+  border: 1px solid var(--border);
+}
+
+.terminal-table th, .terminal-table td {
+  border-right: 1px solid var(--border);
+  padding: 0.5rem 1rem;
+}
+
+.terminal-table th {
+  background: #001100;
+}
+
+.blink {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+.error {
+  color: var(--error);
+}
+
+.btn {
+  background: var(--border);
+  color: var(--terminal-bg);
+  border: 1px solid var(--border);
+  padding: 0.25rem 0.5rem;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 0.8rem;
+  margin-right: 0.25rem;
+}
+
+.btn:hover {
+  background: var(--terminal-fg);
+}
+
+.tab-active {
+  border-bottom: 2px solid var(--terminal-accent);
+}

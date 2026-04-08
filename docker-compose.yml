@@ -1,0 +1,63 @@
+name: booklt
+
+services:
+  db:
+    image: postgres:18-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: bookit
+      POSTGRES_USER: bookit
+      POSTGRES_PASSWORD: bookit
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U bookit -d bookit"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - server-network
+
+  backend:
+    image: mrpolvos/bookit-backend:latest
+    restart: always
+    ports:
+      - "3001:3001"
+    environment:
+      DATABASE_URL: postgres://bookit:bookit@db:5432/bookit
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://0.0.0.0:3001/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    networks:
+      - server-network
+      - client-network
+
+  frontend:
+    image: mrpolvos/bookit-frontend:latest
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      NEXT_PUBLIC_API_URL: http://backend:3001
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - client-network
+
+volumes:
+  postgres_data:
+
+networks:
+  server-network:
+    driver: bridge
+  client-network:
+    driver: bridge
